@@ -390,6 +390,21 @@ namespace ServiceStack.Text.Tests.JsonTests
 			Assert.That(fromJson, Is.EqualTo(dateTimeOffset));
 			JsConfig.Reset();
 		}
+
+		[Test]
+		public void Can_deserialize_json_date_iso8601_withOffset_asUtc()
+		{
+			JsConfig.DateHandler = JsonDateHandler.ISO8601;
+			var json = @"""2013-12-01T22:30+04""";
+			var dateTime = new DateTime(2013, 12, 01, 18, 30, 00, DateTimeKind.Utc);
+			var fromJson = JsonSerializer.DeserializeFromString<DateTime>(json);
+
+
+			Assert.That(fromJson, Is.EqualTo(dateTime));
+			Assert.That(fromJson.Kind, Is.EqualTo(dateTime.Kind));
+			JsConfig.Reset();
+		}
+
 		#endregion
 
         #region InteropTests
